@@ -6,13 +6,13 @@ tf.get_logger().setLevel('ERROR')
 import tensorflow_hub as hub
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras import Sequential
+from tensorflow.keras import Sequential, models
 from tensorflow.keras.layers import Dropout, Dense
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 
 import numpy as np
 import urllib.request, urllib.error, json
-
+import pickle
 #
 # Helper class for training an image classifier using training data
 #  from the Machine Learning for Kids website.
@@ -133,3 +133,17 @@ class MLforKidsImageProject:
             "class_name": self.ml_class_names[topanswer],
             "confidence": 100 * np.max(tf.nn.softmax(topprediction))
         }
+
+    def save_model(self, file_name):
+        self.ml_model.save(file_name)
+        outfile = open(file_name + "/class_names", "wb")
+        pickle.dump(self.ml_class_names, outfile)
+        outfile.close()
+
+    def load_model(self, file_name):
+        self.ml_model = models.load_model(file_name)
+        infile = open(file_name + "/class_names", "rb")
+        self.ml_class_names = pickle.load(infile)
+        infile.close()
+        self.num_classes = len(self.ml_class_names)
+
