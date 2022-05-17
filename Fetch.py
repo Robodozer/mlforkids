@@ -45,18 +45,18 @@ class MLforKidsImageProject:
     #  ImageDataGenerator against the folder where they have been downloaded
     def __get_training_images_generator(self):
         print("MLFORKIDS: Getting your training images to use to train your machine learning model")
-        cachedir = "~/.keras/"
-        cachelocation = os.path.join("datasets", "mlforkids", self.scratchkey)
+        #cachedir = "~/.keras/"
+        #cachelocation = os.path.join("datasets", "mlforkids", self.scratchkey)
         
-        projectcachedir = str(os.path.expanduser(os.path.join(cachedir, cachelocation)))
-        
+        #projectcachedir = str(os.path.expanduser(os.path.join(cachedir, cachelocation)))
+        projectcachedir = 'TrainingImages/'
         for trainingitem in self.__downloaded_training_images_list:
             try:
                 tf.keras.utils.get_file(origin=trainingitem["imageurl"], 
                                         
-                                        cache_dir=cachedir,
+                                        cache_dir=projectcachedir,
                                         
-                                        cache_subdir=os.path.join(cachelocation, trainingitem["label"]),
+                                        cache_subdir=os.path.join(trainingitem["label"]),
                                         fname=self.__get_fname(trainingitem))
                                         
                                         
