@@ -25,13 +25,13 @@ class MLforKidsImageProject:
     # scratchkey is the secret API key that allows access to training
     #  data from a single project on the MLforKids website
     def __init__(self, scratchkey: str):
-        print("MLFORKIDS: Downloading information about your machine learning project")
+        #print("MLFORKIDS: Downloading information about your machine learning project")
         self.scratchkey = scratchkey
-        try:
-            with urllib.request.urlopen("https://machinelearningforkids.co.uk/api/scratch/" + scratchkey + "/train") as url:
-                self.__downloaded_training_images_list = json.loads(url.read().decode())
-        except urllib.error.HTTPError:
-            raise RuntimeError("Unable to retrieve machine learning project - please check that the key is correct")
+        #try:
+        #    with urllib.request.urlopen("https://machinelearningforkids.co.uk/api/scratch/" + scratchkey + "/train") as url:
+        #        self.__downloaded_training_images_list = json.loads(url.read().decode())
+        #except urllib.error.HTTPError:
+        #    raise RuntimeError("Unable to retrieve machine learning project - please check that the key is correct")
 
     # Generates a name for the local cache file where the downloaded training
     #  image is saved. An image file extension is required, otherwise it will
@@ -50,24 +50,25 @@ class MLforKidsImageProject:
         
         #projectcachedir = str(os.path.expanduser(os.path.join(cachedir, cachelocation)))
         projectcachedir = 'TrainingImages/'
-        for trainingitem in self.__downloaded_training_images_list:
-            try:
-                tf.keras.utils.get_file(origin=trainingitem["imageurl"], 
-                                        
-                                        cache_dir=projectcachedir,
-                                        
-                                        cache_subdir=os.path.join(trainingitem["label"]),
-                                        fname=self.__get_fname(trainingitem))
+        #for trainingitem in self.__downloaded_training_images_list:
+        #    try:
+        #        tf.keras.utils.get_file(origin=trainingitem["imageurl"], 
+        #                                
+        #                                cache_dir=projectcachedir,
+        #                                
+        #                                cache_subdir=os.path.join(trainingitem["label"]),
+        #                                fname=self.__get_fname(trainingitem))
                                         
                                         
                                       
                                      
-            except Exception as downloaderr:
-                print("ERROR: Unable to download training image from", trainingitem["imageurl"])
-                print(downloaderr)
-                print("ERROR: Skipping training image and continuing without it", trainingitem["imageurl"])
-        return ImageDataGenerator().flow_from_directory(str(projectcachedir),
-                                                        target_size=MLforKidsImageProject.IMAGESIZE)
+        #    except Exception as downloaderr:
+        #        print("ERROR: Unable to download training image from", trainingitem["imageurl"])
+        #        print(downloaderr)
+        #        print("ERROR: Skipping training image and continuing without it", trainingitem["imageurl"])
+        return ImageDataGenerator().flow_from_directory(
+            str(projectcachedir),
+            target_size=MLforKidsImageProject.IMAGESIZE)
         
                                                         
                                                         

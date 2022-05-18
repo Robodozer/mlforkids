@@ -9,8 +9,10 @@ import cv2
 from playsound import playsound
 cap = cv2.VideoCapture(0)
 ret, pic = cap.read()
-cv2.imwrite("POGE.jpg", pic)
+#file_name = "/home/guest/TrainingImages/TrainingImage%s.jpg" % (time.strftime("%H%M%S"))
 file_name = "POGE.jpg"
+cv2.imwrite(file_name, pic)
+
 
 
 model_filename = "ml_model"
